@@ -35,7 +35,8 @@ $plugins->add_hook("modcp_nav", "profilefields_manager_modcp_nav");
 $plugins->add_hook("modcp_start", "profilefields_manager_modcp");
 $plugins->add_hook('fetch_wol_activity_end', 'profilefields_manager_online_activity');
 $plugins->add_hook('build_friendly_wol_location_end', 'profilefields_manager_online_location');
-$plugins->add_hook("member_profile_start", "profilefields_manager_memberprofile", 0);
+$plugins->add_hook("member_profile_start", "profilefields_manager_memberprofile_start", 0);
+$plugins->add_hook("member_profile_end", "profilefields_manager_memberprofile_end", 0);
 $plugins->add_hook("postbit", "profilefields_manager_postbit", 0); // normaler Postbit
 $plugins->add_hook("postbit_prev", "profilefields_manager_postbit"); // Vorschau
 $plugins->add_hook("postbit_pm", "profilefields_manager_postbit"); // Private Nachricht
@@ -1405,15 +1406,25 @@ function profilefields_manager_online_location($plugin_array) {
 
 // VARIABELN //
 
-// Profile
-function profilefields_manager_memberprofile() {
+// Profile $memprofile
+function profilefields_manager_memberprofile_start() {
 
-    global $fields, $memprofile, $userfields;
+    global $fields, $memprofile;
     
     $uid = $memprofile['uid'];
 
     $fields = profilefields_manager_build_view($uid);    
     $memprofile = array_merge($memprofile, $fields);
+}
+
+// Profile $userfields
+function profilefields_manager_memberprofile_end() {
+
+    global $fields, $memprofile, $userfields;
+    
+    $uid = $memprofile['uid'];
+
+    $fields = profilefields_manager_build_view($uid);  
     $userfields = array_merge($userfields, $fields);
 }
 
