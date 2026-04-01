@@ -52,7 +52,7 @@ function profilefields_manager_info()
 {
 	return array(
 		"name"		=> "Profilfeld-Manager",
-		"description"	=> "Pluginbeschreibung",
+		"description"	=> "Das Plugin erweitert die Verwaltung der Profilfeldern im UserCP und in deren Ausgabe im Forum.",
 		"website"	=> "https://github.com/little-evil-genius/Profilfeld-Manager",
 		"author"	=> "little.evil.genius",
 		"authorsite"	=> "https://storming-gates.de/member.php?action=profile&uid=1712",
