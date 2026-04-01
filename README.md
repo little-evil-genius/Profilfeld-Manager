@@ -162,6 +162,7 @@ Es wird automatisch in jedes bestehende und neue Design hinzugefügt. Man sollte
 
         .pfm-diff-same {
         background: transparent;
+        }
         
 ```
 
