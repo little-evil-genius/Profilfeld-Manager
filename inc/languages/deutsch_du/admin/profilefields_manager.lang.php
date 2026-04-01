@@ -50,7 +50,7 @@ $l['profilefields_manager_form_title_desc'] = "Wie lautet die volle Seitenbezeic
 $l['profilefields_manager_form_identification'] = "Idenifikator/Link <em>*</em>";
 $l['profilefields_manager_form_identification_desc'] = "Der Identifikator dient als Linkbezeichnung beim aufrufen. Er darf keine Sonderzeichen oder Leerzeichen ebthalten (maschinenlesbar).";
 $l['profilefields_manager_form_linktitle'] = "Navigation <em>*</em>";
-$l['profilefields_manager_form_linktitle_desc'] = "Was soll in der Navigation angezeigt werden im UseCP?";
+$l['profilefields_manager_form_linktitle_desc'] = "Was soll in der Navigation angezeigt werden im UserCP?";
 
 $l['profilefields_manager_form_error_title'] = "Du hast keine Seitenbezeichnung angegeben.";
 $l['profilefields_manager_form_error_title_double'] = "Diese Seitenbezeichnung ist schon vergeben.";
