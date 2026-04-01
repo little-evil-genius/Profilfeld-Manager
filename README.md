@@ -183,4 +183,6 @@ usercp.php?action=xxx
 
 <img src="https://stormborn.at/plugins/profilfelds_fields.png">
 
+<img src="https://stormborn.at/plugins/profilfelds_codebuttons.png">
+
 <img src="https://stormborn.at/plugins/profilfelds_diff.png">
