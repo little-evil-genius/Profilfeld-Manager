@@ -82,11 +82,10 @@ $memprofile = array_merge($memprofile, $fields);
 Dieses Vorgehen bietet sich besonders an, wenn bereits mit Arrays wie $memprofile, $post oder $user gearbeitet wird oder innerhalbe einer eigenen Schleife (while). Durch das Zusammenführen werden die bestehenden Werte automatisch erweitert bzw. überschrieben, sodass überall die korrekten Inhalte angezeigt werden.
 
 ## Überprüfung von Änderungen an Profilfeldern
-Mit dieser Funktion kannst du festlegen, dass Änderungen an bestimmten Profilfeldern nicht sofort sichtbar werden, sondern erst vom Team geprüft werden müssen. Das ist besonders praktisch bei schon gewobbten Charakteren/angenommenen Steckbriefen. Diese Funktion lässt sich für jedes Profilfeld individuell aktivieren.<br>
+Mit dieser Funktion kann festgelegt werden, dass Änderungen an bestimmten Profilfeldern nicht sofort sichtbar werden, sondern erst vom Team geprüft werden müssen. Das ist besonders praktisch bei schon gewobbten Charakteren/angenommenen Steckbriefen. Diese Funktion lässt sich für jedes Profilfeld und Gruppe individuell aktivieren.<br>
 Wenn ein Mitglied ein entsprechendes Profilfeld bearbeitet, wird die Änderung zunächst im Hintergrund gespeichert. Der bisherige Inhalt bleibt weiterhin im Forum sichtbar. Die neue Version wird also nicht direkt übernommen, sondern wartet auf eine Freigabe durch das Team.<br>
-Über ein Banner auf dem Index wird das Team entsprechend über eine Überprüfung informatiert. Im ModCP können die Änderungen dann überprüft. Dabei werden der alte und der neue Inhalt gegenübergestellt, sodass Unterschiede schnell erkennbar sind. Anschließend kann entschieden werden, ob die Änderung angenommen oder abgelehnt wird.<br>
-Wird die Änderung akzeptiert, ersetzt der neue Inhalt automatisch den alten. Das Mitglied erhält zusätzlich eine Benachrichtigung darüber, dass die Änderung übernommen wurde.<br>
-Wird die Änderung hingegen abgelehnt, bleibt der ursprüngliche Inhalt bestehen. Gleichzeitig muss das Teammitglied eine Begründung angeben, die per PN mitgeteilt wird.
+Über ein Banner auf dem Index wird das Team entsprechend über eine Überprüfung informatiert. Im ModCP können die Änderungen dann überprüft werden. Dabei werden der alte und der neue Inhalt gegenübergestellt, sodass Unterschiede schnell erkennbar sind. Anschließend kann entschieden werden, ob die Änderung angenommen oder abgelehnt wird.<br>
+Wird die Änderung akzeptiert, ersetzt der neue Inhalt automatisch den alten. Das Mitglied erhält zusätzlich eine Benachrichtigung darüber, dass die Änderung übernommen wurde. Wird die Änderung hingegen abgelehnt, bleibt der ursprüngliche Inhalt bestehen. Gleichzeitig muss das Teammitglied eine Begründung angeben, die per PN mitgeteilt wird.
 
 # Vorrausetzung
 - Das ACP Modul <a href="https://github.com/little-evil-genius/rpgstuff_modul" target="_blank">RPG Stuff</a> <b>muss</b> vorhanden sein.
