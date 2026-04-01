@@ -912,8 +912,6 @@ function profilefields_manager_admin_update_plugin(&$table) {
     // UPDATE
     if ($mybb->input['action'] == 'add_update' AND $mybb->get_input('plugin') == "profilefields_manager") {
 
-        profilefields_manager_is_nameTPL();
-
         // Templates 
         profilefields_manager_templates('update');
 
@@ -2920,33 +2918,8 @@ function profilefields_manager_is_updated(){
 
     global $db;
 
-    $query = $db->query("SELECT * FROM ".TABLE_PREFIX."templates 
-    WHERE title LIKE 'profilefields_manager%'
-    ");
-
-    if($db->num_rows($query) == 0) {
+    if ($db->table_exists("usercp_pages")) {
         return true;
     }
-
     return false;
-}
-
-// Templates umbenennen (profilefields_manager -> profilefieldsmanager)
-function profilefields_manager_is_nameTPL(){
-
-    global $db, $theme;
-    
-    $query = $db->simple_select("templates","tid, title", "title LIKE 'profilefields\\_manager%'");
-    while($tpl = $db->fetch_array($query)) {
-        $old_title = $tpl['title'];
-        $new_title = str_replace("profilefields_manager", "profilefieldsmanager", $old_title);
-        
-        if($old_title === $new_title) {
-            continue;
-        }
-        
-        $db->update_query("templates", ["title" => $new_title], "tid = ".$tpl['tid']);
-    }
-
-    $db->update_query("templategroups", ["prefix" => 'profilefieldsmanager'], "prefix = 'profilefields_manager'");
 }
