@@ -81,7 +81,7 @@ function profilefields_manager_install() {
     // TEMPLATES ERSTELLEN
 	// Template Gruppe für jedes Design erstellen
     $templategroup = array(
-        "prefix" => "profilefields_manager",
+        "prefix" => "profilefieldsmanager",
         "title" => $db->escape_string("Profilfeld-Manager"),
     );
     $db->insert_query("templategroups", $templategroup);
@@ -149,10 +149,10 @@ function profilefields_manager_uninstall() {
 	$cache->update_forums();
 
     // TEMPLATGRUPPE LÖSCHEN
-    $db->delete_query("templategroups", "prefix = 'profilefields_manager'");
+    $db->delete_query("templategroups", "prefix = 'profilefieldsmanager'");
 
     // TEMPLATES LÖSCHEN
-    $db->delete_query("templates", "title LIKE 'profilefields_manager%'");
+    $db->delete_query("templates", "title LIKE 'profilefieldsmanager%'");
 
     // STYLESHEET ENTFERNEN
 	require_once MYBB_ADMIN_DIR."inc/functions_themes.php";
@@ -202,8 +202,8 @@ function profilefields_manager_activate() {
 	find_replace_templatesets('usercp_profile_profilefields_multiselect', '#'.preg_quote('name="profile_fields[$field][]"').'#', 'name="profile_fields[$field][]" id="{$field}"');
 	find_replace_templatesets('usercp_profile_profilefields_radio', '#'.preg_quote('name="profile_fields[$field]"').'#', 'name="profile_fields[$field]" id="{$field}_{$key}"');
 	find_replace_templatesets('usercp_profile_profilefields_select', '#'.preg_quote('name="profile_fields[$field]"').'#', 'name="profile_fields[$field]" id="{$field}"');
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>')."\s*".preg_quote("<span>{\$profilefield['name']}</span>:")."#i",'<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_label" id="profilefieldsManager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"><td><span>{$profilefield[\'name\']}</span>:');
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>{$code}</td>')."#i", '<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_input" id="profilefieldsManager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"> <td>{$code}</td>');
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>')."\s*".preg_quote("<span>{\$profilefield['name']}</span>:")."#i",'<tr class="profilefields_manager_field_row profilefields_manager_field_row_label" id="profilefields_manager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"><td><span>{$profilefield[\'name\']}</span>:');
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>{$code}</td>')."#i", '<tr class="profilefields_manager_field_row profilefields_manager_field_row_input" id="profilefields_manager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"> <td>{$code}</td>');
 	find_replace_templatesets('header', '#'.preg_quote('{$pm_notice}').'#', '{$profilefields_manager_banner}{$pm_notice}');
 	find_replace_templatesets('modcp_nav_users', '#'.preg_quote('{$nav_ipsearch}').'#', '{$nav_ipsearch}{$nav_profilefields_manager}');
 }
@@ -235,8 +235,8 @@ function profilefields_manager_deactivate() {
     find_replace_templatesets("usercp_profile_profilefields_multiselect", "#".preg_quote(' id="{$field}"')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_radio", "#".preg_quote(' id="{$field}_{$key}"')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_select", "#".preg_quote(' id="{$field}"')."#i", '', 0);
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_label" id="profilefieldsManager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_input" id="profilefieldsManager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefields_manager_field_row profilefields_manager_field_row_label" id="profilefields_manager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefields_manager_field_row profilefields_manager_field_row_input" id="profilefields_manager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
     find_replace_templatesets("header", "#".preg_quote('{$profilefields_manager_banner}')."#i", '', 0);
     find_replace_templatesets("modcp_nav_users", "#".preg_quote('{$nav_profilefields_manager}')."#i", '', 0);
 }
@@ -342,7 +342,7 @@ function profilefields_manager_admin_manage() {
                 $linktitle = $pages['linktitle'];
 
                 $form_container->output_cell('<strong><a href="index.php?module=rpgstuff-profilefields_manager&amp;action=edit&amp;pid='.$pid.'">'.$title.'</a></strong><br><small><strong>'.$lang->profilefields_manager_overview_linktitle.'</strong> '.$linktitle);   
-                $form_container->output_cell('usercp.php&amp;action='.$identification);
+                $form_container->output_cell('usercp.php?action='.$identification);
 
                 $fields_list = profilefields_manager_get_fields_pages($pid);
                 if (!empty($fields_list)) {
@@ -905,12 +905,14 @@ function profilefields_manager_admin_update_stylesheet(&$table) {
 // Plugin Update
 function profilefields_manager_admin_update_plugin(&$table) {
 
-    global $db, $mybb, $lang;
+    global $db, $mybb, $lang, $theme;
 	
     $lang->load('rpgstuff_plugin_updates');
 
     // UPDATE
     if ($mybb->input['action'] == 'add_update' AND $mybb->get_input('plugin') == "profilefields_manager") {
+
+        profilefields_manager_is_nameTPL();
 
         // Templates 
         profilefields_manager_templates('update');
@@ -1012,10 +1014,10 @@ function profilefields_manager_usercp_menu() {
         $identification = $pages['identification'];
         $linktitle = $pages['linktitle'];
 
-        eval("\$usercp_pages .= \"".$templates->get("profilefields_manager_usercp_menu_bit")."\";");
+        eval("\$usercp_pages .= \"".$templates->get("profilefieldsmanager_usercp_menu_bit")."\";");
     }
 
-    eval("\$usercpmenu .= \"".$templates->get("profilefields_manager_usercp_menu")."\";");
+    eval("\$usercpmenu .= \"".$templates->get("profilefieldsmanager_usercp_menu")."\";");
 }
 
 // Speichern
@@ -1101,10 +1103,14 @@ function profilefields_manager_usercp_pages() {
             $data = profilefields_manager_build_page_profilefields($pid);
             $requiredfields = $data['requiredfields'];
             $customfields = $data['customfields'];
+            $fields = $data['fields_map'];
 
             $lang->profilefields_manager_usercp_page = $lang->sprintf($lang->profilefields_manager_usercp_page, $pages['title']);
 
-            eval("\$page = \"".$templates->get("profilefields_manager_usercp_page")."\";");
+            $profilefields_manager_hidden_fields = profilefields_manager_build_page_profilefields_hidden($pid);
+
+            $templatename = profilefields_manager_template_usercppages($pageID);
+            eval("\$page = \"".$templates->get($templatename)."\";");
             output_page($page);
             unset($GLOBALS['profilefields_manager_usercp_errors']);
             die();
@@ -1132,7 +1138,7 @@ function profilefields_manager_banner() {
         } elseif ($count_fieldsedit > 1) {
             $bannertext = $lang->sprintf($lang->profilefields_manager_banner_plural, $count_fieldsedit);
         }
-        eval("\$profilefields_manager_banner = \"".$templates->get("profilefields_manager_banner")."\";");
+        eval("\$profilefields_manager_banner = \"".$templates->get("profilefieldsmanager_banner")."\";");
     } else {
         $profilefields_manager_banner = "";
     }
@@ -1195,15 +1201,15 @@ function profilefields_manager_modcp() {
             $character = build_profile_link($username, $uid);
             $profilefield = $db->fetch_field($db->simple_select("profilefields", "name", "fid = ".$fid), "name");
 
-            eval("\$editBits .= \"".$templates->get("profilefields_manager_modcp_bit")."\";");
+            eval("\$editBits .= \"".$templates->get("profilefieldsmanager_modcp_bit")."\";");
         }
 
         if(empty($editBits)) {
-            eval("\$editBits = \"".$templates->get("profilefields_manager_modcp_noresults")."\";");
+            eval("\$editBits = \"".$templates->get("profilefieldsmanager_modcp_noresults")."\";");
         }
  
         // TEMPLATE FÜR DIE SEITE
-        eval("\$page = \"".$templates->get("profilefields_manager_modcp")."\";");
+        eval("\$page = \"".$templates->get("profilefieldsmanager_modcp")."\";");
         output_page($page);
         die();
     }
@@ -1235,13 +1241,13 @@ function profilefields_manager_modcp() {
         $oldvalue = $diff_data['old'];
         $newvalue = $diff_data['new'];
 
-        eval("\$refuse_popup = \"".$templates->get("profilefields_manager_modcp_popup")."\";");
+        eval("\$refuse_popup = \"".$templates->get("profilefieldsmanager_modcp_popup")."\";");
 
         $lang->profilefields_manager_modcp_edit_name = $lang->sprintf($lang->profilefields_manager_modcp_edit_name, $charactername);
         $lang->profilefields_manager_modcp_edit_field = $lang->sprintf($lang->profilefields_manager_modcp_edit_field, $charactername, $profilefieldname);
  
         // TEMPLATE FÜR DIE SEITE
-        eval("\$page = \"".$templates->get("profilefields_manager_modcp_edit")."\";");
+        eval("\$page = \"".$templates->get("profilefieldsmanager_modcp_edit")."\";");
         output_page($page);
         die();
     }
@@ -1494,9 +1500,9 @@ function profilefields_manager_register_myalerts_formatter(){
 
 	if (class_exists('MybbStuff_MyAlerts_Formatter_AbstractFormatter') &&
 	    class_exists('MybbStuff_MyAlerts_AlertFormatterManager') &&
-	    !class_exists('profilefieldsmanagerAlertFormatter')
+	    !class_exists('profilefields_managerAlertFormatter')
 	) {
-		class profilefieldsmanagerAlertFormatter extends MybbStuff_MyAlerts_Formatter_AbstractFormatter
+		class profilefields_managerAlertFormatter extends MybbStuff_MyAlerts_Formatter_AbstractFormatter
 		{
 			/**
 			* Format an alert into it's output string to be used in both the main alerts listing page and the popup.
@@ -1550,7 +1556,7 @@ function profilefields_manager_register_myalerts_formatter(){
 		        $formatterManager = MybbStuff_MyAlerts_AlertFormatterManager::createInstance($mybb, $lang);
 		}
 		if ($formatterManager) {
-			$formatterManager->registerFormatter(new profilefieldsmanagerAlertFormatter($mybb, $lang, 'profilefields_manager_alert'));
+			$formatterManager->registerFormatter(new profilefields_managerAlertFormatter($mybb, $lang, 'profilefields_manager_alert'));
 		}
 	}
 }
@@ -1642,7 +1648,7 @@ function profilefields_manager_validate_pages($pid = ''){
 }
 
 // Error - Profilfelder
-function profilefields_manager_validate_fields($pid = ''){
+function profilefields_manager_validate_fields(){
 
     global $mybb, $lang, $db;
 
@@ -1786,6 +1792,35 @@ function profilefields_manager_get_usercp_pages($mode = '') {
     return $pages_list;
 }
 
+// Verschiedene Templates für UserCP
+function profilefields_manager_template_usercppages($pageID = '') {
+
+    global $db, $theme;
+
+    if (empty($pageID)) {
+        $template_to_use = "profilefieldsmanager_usercp_page";
+        return $template_to_use;
+    }
+
+    $template_name = "profilefieldsmanager_usercp_page_" . $pageID;
+    
+    // prüfen ob Template existiert
+    $db_template = $db->fetch_field($db->query("SELECT tid FROM ".TABLE_PREFIX."templates
+    WHERE title = '".$template_name."'
+    AND sid IN ('-2','-1','".$theme['templateset']."')
+    ORDER BY sid DESC
+    LIMIT 1
+    "),"tid");
+    
+    if(!empty($db_template)) {
+        $template_to_use = $template_name;
+    } else {
+        $template_to_use = "profilefieldsmanager_usercp_page";
+    }
+
+    return $template_to_use;
+}
+
 // Profilfelder auslesen
 function profilefields_manager_build_page_profilefields($pid) {
 
@@ -1796,6 +1831,7 @@ function profilefields_manager_build_page_profilefields($pid) {
     // Custom profile fields baby!
 	$altbg = "trow1";
 	$requiredfields = $customfields = '';
+    $fields_map = [];
 	$mybb->input['profile_fields'] = $mybb->get_input('profile_fields', MyBB::INPUT_ARRAY);
 
 	$pfcache = $cache->read('profilefields');
@@ -1992,6 +2028,7 @@ function profilefields_manager_build_page_profilefields($pid) {
 			{
 				eval("\$customfields .= \"".$templates->get("usercp_profile_customfield")."\";");
 			}
+            eval("\$fields_map['{$field}'] = \"".$templates->get("usercp_profile_customfield")."\";");
 			$altbg = alt_trow();
 		}
 	}
@@ -2000,12 +2037,76 @@ function profilefields_manager_build_page_profilefields($pid) {
 		eval("\$customfields = \"".$templates->get("usercp_profile_profilefields")."\";");
 	}
 
-    $data_return = [
+    return [
         "requiredfields" => $requiredfields,
-        "customfields" => $customfields
+        "customfields"   => $customfields,
+        "fields_map"     => $fields_map
     ];
+}
 
-    return $data_return;
+// Hidden Inputs
+function profilefields_manager_build_page_profilefields_hidden($pid = 0) {
+    
+    global $db, $mybb;
+
+    $uid = $mybb->user['uid'];
+
+    if ($pid <= 0 || $uid <= 0) {
+        return '';
+    }
+
+    // alle Felder der aktuellen Seite
+    $current_page_fields = [];
+    $current_page_fids = [];
+
+    $fieldquery = $db->query("SELECT fid, dependenceFID FROM ".TABLE_PREFIX."profilefields
+    WHERE usercp_page = ".$pid."
+    ");
+
+    while ($field = $db->fetch_array($fieldquery)) {
+
+        $fid = $field['fid'];
+        $depFid = $field['dependenceFID'];
+
+        $current_page_fids[] = $fid;
+
+        if ($depFid > 0) {
+            $current_page_fields[] = $depFid;
+        }
+    }
+
+    $needed_dependence_fids = array_unique($current_page_fields);
+
+    if (empty($needed_dependence_fids)) {
+        return '';
+    }
+
+    // Profilfeld-Werte
+    $userquery = $db->query("SELECT * FROM ".TABLE_PREFIX."userfields
+    WHERE ufid = ".$uid."
+    ");
+    $userfields = $db->fetch_array($userquery);
+
+    if (!$userfields) {
+        $userfields = [];
+    }
+
+    // Hidden Inputs
+    $hidden_fields_html = '';
+    foreach ($needed_dependence_fids as $fid) {
+
+        if (in_array($fid, $current_page_fids)) {
+            continue;
+        }
+        $value = '';
+        if (!empty($userfields['fid'.$fid])) {
+            $value = $userfields['fid'.$fid];
+        }
+
+        $hidden_fields_html .= '<input type="hidden" name = "profile_fields[fid'.$fid.']" value = "'.$value.'" id= "fid'.$fid.'">'."\n";
+    }
+
+    return $hidden_fields_html;
 }
 
 // Speichern - Daten zusammenführen
@@ -2295,7 +2396,10 @@ function profilefields_manager_build_diff_html($old_text, $new_text) {
 // Variable Inhalte
 function profilefields_manager_build_view($uid) {
 
-    global $db, $cache, $mybb;
+    global $db, $cache, $mybb, $parser, $parser_options;
+
+    require_once MYBB_ROOT."inc/class_parser.php";
+    $parser = new postParser;
 
     $fields = array();
 
@@ -2311,6 +2415,16 @@ function profilefields_manager_build_view($uid) {
 
         foreach($pfcache as $profilefield) {
 
+            $parser_options = array(
+                "allow_html" => $profilefield['allowhtml'],
+                "allow_mycode" => $profilefield['allowmycode'],
+                "allow_smilies" => $profilefield['allowsmilies'],
+                "allow_imgcode" => $profilefield['allowimgcode'],
+                "allow_videocode" => $profilefield['allowvideocode'],
+                "filter_badwords" => 1,
+                "nl2br" => 1
+            );
+
             $field = "fid".$profilefield['fid'];
 
             // Abhängigkeit
@@ -2320,27 +2434,30 @@ function profilefields_manager_build_view($uid) {
             }
 
             if(isset($userfields[$field])) {
-                $user_value = trim((string)$userfields[$field]);
+                $user_value = trim($userfields[$field]);
+                $user_value = $parser->parse_message($user_value, $parser_options);
             } else {
                 $user_value = '';
             }
 
-            $default = trim($profilefield['defaultcontent']);
-            $guestcontent = trim($profilefield['guestcontent']);
+            $default_value = trim($profilefield['defaultcontent']);
+            $default_value = $parser->parse_message($default_value, $parser_options);
+            $guest_value = trim($profilefield['guestcontent']);
+            $guest_value = $parser->parse_message($guest_value, $parser_options);
             $guestpermissions = (int)$profilefield['guestpermissions'];
 
             // Gäste
             if($mybb->user['uid'] == 0 && $guestpermissions == 0) {
-                if($guestcontent != '') {
-                    $fields[$field] = $guestcontent;
+                if($guest_value != '') {
+                    $fields[$field] = $guest_value;
                 }
                 continue;
             }
 
             if($user_value != '') {
                 $fields[$field] = $user_value;
-            } elseif($default != '') {
-                $fields[$field] = $default;
+            } elseif($default_value != '') {
+                $fields[$field] = $default_value;
             }
         }
     }
@@ -2464,16 +2581,19 @@ function profilefields_manager_templates($mode = '') {
 
     global $db;
 
+    $info = profilefields_manager_info();
+    $version = $info['version'];
+
     $templates[] = array(
-        'title'		=> 'profilefields_manager_banner',
+        'title'		=> 'profilefieldsmanager_banner',
         'template'	=> $db->escape_string('<div class="red_alert"><a href="modcp.php?action=profilefields_edit">{$bannertext}</a></div>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_modcp',
+        'title'		=> 'profilefieldsmanager_modcp',
         'template'	=> $db->escape_string('<html>
         <head>
 		<title>{$mybb->settings[\'bbname\']} - {$lang->profilefields_manager_modcp}</title>
@@ -2503,24 +2623,24 @@ function profilefields_manager_templates($mode = '') {
         </body>
         </html>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_modcp_bit',
+        'title'		=> 'profilefieldsmanager_modcp_bit',
         'template'	=> $db->escape_string('<tr>
         <td class="trow1" valign="top">{$character}</td>
         <td class="trow1" valign="top">{$profilefield}</td>
         <td class="trow1" valign="top"><a href="modcp.php?action=profilefields_edit_update&eid={$eid}">{$lang->profilefields_manager_modcp_bit}</a></td>
         </tr>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_modcp_edit',
+        'title'		=> 'profilefieldsmanager_modcp_edit',
         'template'	=> $db->escape_string('<html>
         <head>
 		<title>{$mybb->settings[\'bbname\']} - {$lang->profilefields_manager_modcp_edit_name}</title>
@@ -2538,7 +2658,7 @@ function profilefields_manager_templates($mode = '') {
 						</tr>
 						<tr class="trow1">
 							<td width="50%" valign="top">
-								<div class="tcat"><strong>{$lang->profilefields_manager_modcp_edit_oldvalue}</strong></div>
+								<div class="tcat"><strong>Neu Neu</strong></div>
 								<div>{$oldvalue}</div>
 							</td>
 							<td width="50%" valign="top">
@@ -2561,20 +2681,20 @@ function profilefields_manager_templates($mode = '') {
         </body>
         </html>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_modcp_nav',
+        'title'		=> 'profilefieldsmanager_modcp_nav',
         'template'	=> $db->escape_string('<tr><td class="trow1 smalltext"><a href="modcp.php?action=profilefields_edit" class="modcp_nav_item modcp_nav_modqueue">{$lang->profilefields_manager_modcp_nav}</td></tr>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_modcp_popup',
+        'title'		=> 'profilefieldsmanager_modcp_popup',
         'template'	=> $db->escape_string('<div id="profilefieldsEdit_{$eid}" class="modal" style="display: none;">
         <form action="modcp.php" method="post" name="input">
 		<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
@@ -2599,12 +2719,12 @@ function profilefields_manager_templates($mode = '') {
         </form>
         </div>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_usercp_menu',
+        'title'		=> 'profilefieldsmanager_usercp_menu',
         'template'	=> $db->escape_string('<tbody>
         <tr>
         <td class="tcat tcat_menu tcat_collapse{$collapsedimg[\'profilefields_manager\']}">
@@ -2617,20 +2737,20 @@ function profilefields_manager_templates($mode = '') {
         {$usercp_pages}
         </tbody>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_usercp_menu_bit',
+        'title'		=> 'profilefieldsmanager_usercp_menu_bit',
         'template'	=> $db->escape_string('<tr><td class="trow1 smalltext"><a href="usercp.php?action={$identification}" class="usercp_nav_item usercp_nav_profile">{$linktitle}</a></td></tr>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
     $templates[] = array(
-        'title'		=> 'profilefields_manager_usercp_page',
+        'title'		=> 'profilefieldsmanager_usercp_page',
         'template'	=> $db->escape_string('<html>
         <head>
 		<title>{$mybb->settings[\'bbname\']} - {$lang->profilefields_manager_usercp_page}</title>
@@ -2663,6 +2783,7 @@ function profilefields_manager_templates($mode = '') {
 						</table>
 						<br />
 						<div align="center">
+                        {$profilefields_manager_hidden_fields}
 							<input type="hidden" name="action" value="do_{$pageID}" />
 							<input type="submit" class="button" name="regsubmit" value="{$lang->update_profile}" />
 						</div>
@@ -2675,7 +2796,7 @@ function profilefields_manager_templates($mode = '') {
         </body>
         </html>'),
         'sid'		=> '-2',
-        'version'	=> '',
+        'version'	=> $version,
         'dateline'	=> TIME_NOW
     );
 
@@ -2688,7 +2809,8 @@ function profilefields_manager_templates($mode = '') {
                 if ($existing_template['template'] !== $template['template']) {
                     $db->update_query("templates", array(
                         'template' => $template['template'],
-                        'dateline' => TIME_NOW
+                        'dateline' => TIME_NOW,
+                        'version'	=> $version,
                     ), "tid = '".$existing_template['tid']."'");
                 }
             }   
@@ -2698,7 +2820,7 @@ function profilefields_manager_templates($mode = '') {
         }
     } else {
         foreach ($templates as $template) {
-            $check = $db->num_rows($db->simple_select("templates", "title", "title = '".$template['title']."'"));
+            $check = $db->num_rows($db->simple_select("templates", "title", "title = '".$template['title']."' AND sid = '-2'"));
             if ($check == 0) {
                 $db->insert_query("templates", $template);
             }
@@ -2796,10 +2918,35 @@ function profilefields_manager_stylesheet_update() {
 // UPDATE CHECK
 function profilefields_manager_is_updated(){
 
-    global $db, $mybb;
+    global $db;
 
-    if ($db->table_exists("usercp_pages")) {
+    $query = $db->query("SELECT * FROM ".TABLE_PREFIX."templates 
+    WHERE title LIKE 'profilefields_manager%'
+    ");
+
+    if($db->num_rows($query) == 0) {
         return true;
     }
+
     return false;
+}
+
+// Templates umbenennen (profilefields_manager -> profilefieldsmanager)
+function profilefields_manager_is_nameTPL(){
+
+    global $db, $theme;
+    
+    $query = $db->simple_select("templates","tid, title", "title LIKE 'profilefields\\_manager%'");
+    while($tpl = $db->fetch_array($query)) {
+        $old_title = $tpl['title'];
+        $new_title = str_replace("profilefields_manager", "profilefieldsmanager", $old_title);
+        
+        if($old_title === $new_title) {
+            continue;
+        }
+        
+        $db->update_query("templates", ["title" => $new_title], "tid = ".$tpl['tid']);
+    }
+
+    $db->update_query("templategroups", ["prefix" => 'profilefieldsmanager'], "prefix = 'profilefields_manager'");
 }
