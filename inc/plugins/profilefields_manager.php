@@ -52,7 +52,7 @@ function profilefields_manager_info()
 {
 	return array(
 		"name"		=> "Profilfeld-Manager",
-		"description"	=> "Das Plugin erweitert die Verwaltung der Profilfeldern im UserCP und in deren Ausgabe im Forum.",
+		"description"	=> "Das Plugin erweitert die Verwaltung der Profilfeldern im ACP & UserCP und in deren Ausgabe im Forum.",
 		"website"	=> "https://github.com/little-evil-genius/Profilfeld-Manager",
 		"author"	=> "little.evil.genius",
 		"authorsite"	=> "https://storming-gates.de/member.php?action=profile&uid=1712",
@@ -196,6 +196,7 @@ function profilefields_manager_activate() {
 
     // VARIABLEN EINFÜGEN
     require MYBB_ROOT."/inc/adminfunctions_templates.php";
+	find_replace_templatesets('usercp_profile_profilefields_textarea', '#'.preg_quote('<textarea').'#', '<textarea id="{$field}"');
 	find_replace_templatesets('usercp_profile_profilefields_textarea', '#'.preg_quote('</textarea>').'#', '</textarea>{$codebuttons}');
 	find_replace_templatesets('usercp_profile', '#'.preg_quote('{$footer}').'#', '<script type="text/javascript" src="{$mybb->asset_url}/jscripts/profilefields_manager.js"></script>{$footer}');
 	find_replace_templatesets('usercp_profile_profilefields_checkbox', '#'.preg_quote('name="profile_fields[$field][]"').'#', 'name="profile_fields[$field][]" id="{$field}_{$key}"');
@@ -229,6 +230,7 @@ function profilefields_manager_deactivate() {
     
     // VARIABLEN ENTFERNEN
     require MYBB_ROOT."/inc/adminfunctions_templates.php";
+    find_replace_templatesets("usercp_profile_profilefields_textarea", "#".preg_quote('id="{$field}"')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_textarea", "#".preg_quote('{$codebuttons}')."#i", '', 0);
     find_replace_templatesets("usercp_profile", "#".preg_quote('<script type="text/javascript" src="{$mybb->asset_url}/jscripts/profilefields_manager.js"></script>')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_checkbox", "#".preg_quote(' id="{$field}_{$key}"')."#i", '', 0);
@@ -489,7 +491,7 @@ function profilefields_manager_admin_manage() {
             $sub_tabs['edit'] = [
 				"title" => $lang->profilefields_manager_tabs_edit,
 				"link" => "index.php?module=rpgstuff-profilefields_manager&amp;action=edit",
-				"description" => $lang->profilefields_manager_tabs_edit_desc
+				"description" => $lang->sprintf($lang->profilefields_manager_tabs_edit_desc, $pages['title'])
 			];
             $page->output_nav_tabs($sub_tabs, 'edit');
 
@@ -2918,8 +2920,13 @@ function profilefields_manager_is_updated(){
 
     global $db;
 
-    if ($db->table_exists("usercp_pages")) {
+    $query = $db->query("SELECT * FROM ".TABLE_PREFIX."templates 
+    WHERE title LIKE 'profilefields_manager%'
+    ");
+
+    if($db->num_rows($query) == 0) {
         return true;
     }
+
     return false;
 }
