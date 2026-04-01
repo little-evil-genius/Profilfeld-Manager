@@ -2114,16 +2114,14 @@ function profilefields_manager_merge_profile_fields($uid, $pid, $posted_fields) 
 
     global $db, $cache;
 
-    if(!is_array($posted_fields)) {
+    if (!is_array($posted_fields)) {
         $posted_fields = array();
     }
 
     $merged_fields = array();
-    $userfields = $db->fetch_array(
-        $db->simple_select("userfields", "*", "ufid = ".(int)$uid)
-    );
+    $userfields = $db->fetch_array($db->simple_select("userfields", "*", "ufid = ".$uid));
 
-    if(!$userfields) {
+    if (!$userfields) {
         $userfields = array();
     }
 
@@ -2131,8 +2129,8 @@ function profilefields_manager_merge_profile_fields($uid, $pid, $posted_fields) 
 
     $pfcache = $cache->read('profilefields');
 
-    if(is_array($pfcache)) {
-        foreach($pfcache as $profilefield) {
+    if (is_array($pfcache)) {
+        foreach ($pfcache as $profilefield) {
 
             $field = "fid".$profilefield['fid'];
 
@@ -2165,21 +2163,21 @@ function profilefields_manager_merge_profile_fields($uid, $pid, $posted_fields) 
 // ob Bearbeitung überprüft werden mus
 function profilefields_manager_user_matches_editcheck($editcheck, $user) {
 
-    if($editcheck === '' || $editcheck === null) {
+    if ($editcheck === '' || $editcheck === null) {
         return false;
     }
 
-    if($editcheck == '-1') {
+    if ($editcheck == '-1') {
         return true;
     }
 
     $groups = array();
 
-    if(!empty($user['usergroup'])) {
+    if (!empty($user['usergroup'])) {
         $groups[] = (int)$user['usergroup'];
     }
 
-    if(!empty($user['additionalgroups'])) {
+    if (!empty($user['additionalgroups'])) {
         $additional = array_map('intval', explode(',', $user['additionalgroups']));
         $groups = array_merge($groups, $additional);
     }
@@ -2190,7 +2188,7 @@ function profilefields_manager_user_matches_editcheck($editcheck, $user) {
     $allowed_groups = array_unique(array_filter($allowed_groups));
 
     foreach($groups as $gid) {
-        if(in_array($gid, $allowed_groups, true)) {
+        if (in_array($gid, $allowed_groups, true)) {
             return true;
         }
     }
@@ -2205,7 +2203,7 @@ function profilefields_manager_prepare_profilefield_updates($uid, $pid, $merged_
 
     $current_userfields = $db->fetch_array($db->simple_select("userfields", "*", "ufid = ".$uid));
 
-    if(!$current_userfields) {
+    if (!$current_userfields) {
         $current_userfields = array();
     }
 
@@ -2213,29 +2211,37 @@ function profilefields_manager_prepare_profilefield_updates($uid, $pid, $merged_
 
     $pfcache = $cache->read('profilefields');
 
-    if(!is_array($pfcache)) {
+    if (!is_array($pfcache)) {
         return $prepared_fields;
     }
 
-    foreach($pfcache as $profilefield) {
+    foreach ($pfcache as $profilefield) {
 
-        if((int)$profilefield['usercp_page'] !== $pid) {
+        if($profilefield['usercp_page'] !== $pid) {
             continue;
         }
 
         $field = "fid".$profilefield['fid'];
 
-        $old_value = isset($current_userfields[$field]) ? $current_userfields[$field] : '';
-        $new_value = isset($prepared_fields[$field]) ? $prepared_fields[$field] : '';
-
-        // multiselect/checkbox in String
-        if(is_array($new_value)) {
-            $new_value = implode("\n", array_map('trim', $new_value));
+        if (isset($current_userfields[$field])) {
+            $old_value = $current_userfields[$field];
         } else {
-            $new_value = trim((string)$new_value);
+            $old_value = "";
+        }
+        if (isset($prepared_fields[$field])) {
+            $new_value = $prepared_fields[$field];
+        } else {
+            $new_value = "";
         }
 
-        $old_value = trim((string)$old_value);
+        // multiselect/checkbox in String
+        if (is_array($new_value)) {
+            $new_value = implode("\n", array_map('trim', $new_value));
+        } else {
+            $new_value = trim($new_value);
+        }
+
+        $old_value = trim($old_value);
 
         // keine Änderung
         if($new_value === $old_value) {
