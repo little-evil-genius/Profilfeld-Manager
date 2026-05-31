@@ -27,6 +27,8 @@ $plugins->add_hook("admin_config_profile_fields_add_commit", "profilefields_mana
 $plugins->add_hook("admin_config_profile_fields_edit_commit", "profilefields_manager_admin_config_profile_fields_save");
 $plugins->add_hook("admin_rpgstuff_update_stylesheet", "profilefields_manager_admin_update_stylesheet");
 $plugins->add_hook("admin_rpgstuff_update_plugin", "profilefields_manager_admin_update_plugin");
+$plugins->add_hook("admin_rpgstuff_update_core", "profilefields_manager_admin_update_core");
+$plugins->add_hook('admin_load', 'profilefields_manager_integrity_check'); 
 $plugins->add_hook('usercp_menu', 'profilefields_manager_usercp_menu', 30);
 $plugins->add_hook('usercp_start', 'profilefields_manager_usercp_do_pages', 5);
 $plugins->add_hook('usercp_start', 'profilefields_manager_usercp_pages', 10);
@@ -56,7 +58,7 @@ function profilefields_manager_info()
 		"website"	=> "https://github.com/little-evil-genius/Profilfeld-Manager",
 		"author"	=> "little.evil.genius",
 		"authorsite"	=> "https://storming-gates.de/member.php?action=profile&uid=1712",
-		"version"	=> "1.0",
+		"version"	=> "1.0.1",
 		"compatibility" => "18*"
 	);
 }
@@ -146,7 +148,7 @@ function profilefields_manager_uninstall() {
 	if ($db->field_exists("editcheck", "profilefields")) {
 		$db->drop_column("profilefields", "editcheck");
 	}
-	$cache->update_forums();
+	$cache->update_profilefields();
 
     // TEMPLATGRUPPE LÖSCHEN
     $db->delete_query("templategroups", "prefix = 'profilefieldsmanager'");
@@ -977,6 +979,37 @@ function profilefields_manager_admin_update_plugin(&$table) {
         $table->construct_cell($lang->plugins_actual, array('class' => 'align_center'));
     } else {
         $table->construct_cell("<a href=\"index.php?module=rpgstuff-plugin_updates&action=add_update&plugin=profilefields_manager\">".$lang->plugins_update."</a>", array('class' => 'align_center'));
+    }
+    
+    $table->construct_row();
+}
+
+// Plugin Update
+function profilefields_manager_admin_update_core(&$table) {
+
+    global $db, $mybb, $lang, $theme;
+	
+    $lang->load('rpgstuff_core_updates');
+
+    // UPDATE
+    if ($mybb->input['action'] == 'add_core' AND $mybb->get_input('plugin') == "profilefields_manager") {
+
+        profilefields_manager_pluginlibrary();
+
+        flash_message($lang->core_flash, "success");
+        admin_redirect("index.php?module=rpgstuff-core_updates");
+    }
+
+    // Zelle mit dem Namen des Themes
+    $table->construct_cell("<b>".htmlspecialchars_uni("Profilfeld-Manager")."</b>", array('width' => '70%'));
+
+    // Überprüfen, ob Update erledigt
+    $update_check = profilefields_manager_is_updated_core();
+
+    if (!empty($update_check)) {
+        $table->construct_cell($lang->core_actual, array('class' => 'align_center'));
+    } else {
+        $table->construct_cell("<a href=\"index.php?module=rpgstuff-core_updates&action=add_core&plugin=profilefields_manager\">".$lang->core_update."</a>", array('class' => 'align_center'));
     }
     
     $table->construct_row();
@@ -2935,4 +2968,48 @@ function profilefields_manager_is_updated(){
     }
 
     return false;
+}
+
+######################################
+### CORE ÄNDERUNGEN - MyBB UPDATES ###
+######################################
+function profilefields_manager_is_updated_core() {
+
+    $file = MYBB_ROOT . 'usercp.php';
+    if(!file_exists($file)) {
+        return false;
+    }
+
+    $contents = file_get_contents($file);
+
+    $missing = true;
+
+    if(strpos($contents, 'markitup_run_build') === false) {
+        $missing = false;
+    }
+
+    if(strpos($contents, 'profilefields_manager_merge_profile_fields') === false) {
+        $missing = false;
+    }
+
+    if(strpos($contents, '$dependency_style') === false) {
+        $missing = false;
+    }
+
+    return $missing;
+}
+
+function profilefields_manager_integrity_check() {
+
+    global $lang;
+
+    $lang->load("profilefields_manager");
+
+    if(!defined('IN_ADMINCP')) {
+        return;
+    }
+
+    if(!profilefields_manager_is_updated_core()) {
+        flash_message($lang->profilefields_manager_error_integritycheck, 'error');
+    }
 }
