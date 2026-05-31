@@ -1,6 +1,7 @@
 <?php
 $l['profilefields_manager_error_rpgstuff'] = "Das ACP Modul <a href=\"https://github.com/little-evil-genius/rpgstuff_modul\" target=\"_blank\">\"RPG Stuff\"</a> muss vorhanden sein!";
 $l['profilefields_manager_error_pluginlibrary'] = "Die <a href=\"https://github.com/frostschutz/MyBB-PluginLibrary\" target=\"_blank\">\"PluginLibrary for MyBB\"</a> muss vorhanden sein!";
+$l['profilefields_manager_error_integritycheck'] = "Die Core-Änderungen für das Plugin 'Profilfeld-Manager' fehlen - dies passiert häufig nach einem MyBB-Update. Die Core-Änderungen können erneut im Modul RPG Stuff hinzufügt werden.";
 
 $l['profilefields_manager_permission'] = "Kann die UserCP-Seiten verwalten?";
 
