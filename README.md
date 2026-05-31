@@ -89,7 +89,7 @@ Wird die Änderung akzeptiert, ersetzt der neue Inhalt automatisch den alten. Da
 
 # Vorrausetzung
 - Das ACP Modul <a href="https://github.com/little-evil-genius/rpgstuff_modul" target="_blank">RPG Stuff</a> <b>muss</b> vorhanden sein.
-- Der <a href="https://github.com/frostschutz/MyBB-PluginLibrary" target="_blank">PluginLibrary for MyBB</a> von frostschutz <b>muss</b> installiert sein.
+- Die <a href="https://github.com/frostschutz/MyBB-PluginLibrary" target="_blank">PluginLibrary for MyBB</a> von frostschutz <b>muss</b> installiert sein.
 
 # Datenbank-Änderungen
 ### hinzugefügte Tabellen:
