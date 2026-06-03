@@ -20,7 +20,8 @@ Die Erstellung einer neuen Seite erfolgt über ein simples Formular im ACP.<br>
 Die erstellten Seiten lassen sich nicht nur über die Navigation erreichen, sondern können auch direkt über den Link aufgerufen oder manuell eingebunden werden.
 
 ### eigene Templates für die Seiten
-Standardmäßig nutzen alle eigenen Seiten dasselbe Template. Es ist möglich für jede Seite ein eigenes Template anzulegen. So hat man die Möglichkeit, jede Seite individuell zu gestalten und genau an deine Bedürfnisse anzupassen. Wichtig ist dabei nur, dass die grundlegende Formularstruktur erhalten bleibt, damit das Speichern der Inhalte weiterhin funktioniert.
+Standardmäßig nutzen alle eigenen Seiten dasselbe Template. Es ist möglich für jede Seite ein eigenes Template anzulegen. So hat man die Möglichkeit, jede Seite individuell zu gestalten und genau an deine Bedürfnisse anzupassen. Wichtig ist dabei nur, dass die grundlegende Formularstruktur erhalten bleibt, damit das Speichern der Inhalte weiterhin funktioniert.<br>
+Dafür einfach den Inhalt vom Template "profilefieldsmanager_usercp_page" und in das neue Template "profilefieldsmanager_usercp_page_identifikator" einfügen. Identifikator muss natürlich entsprechend angepasst werden im Titel vom Template.
 
 ### für Fortgeschrittene
 Zusätzlich gibt es die Möglichkeit, die Profilfelder im Formular gezielt anzusprechen und frei im Template zu platzieren. Dabei sollte man sich allerdings entscheiden, ob man mit den vorhandenen Feld-Blöcken arbeitet oder die Felder einzeln einbindet, da es sonst zu doppelten Anzeigen kommen kann.
