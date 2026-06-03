@@ -11,6 +11,10 @@ if(!defined("IN_MYBB"))
 	die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
 }
 
+if(!defined("PLUGINLIBRARY")) {
+    define("PLUGINLIBRARY", MYBB_ROOT."inc/plugins/pluginlibrary.php");
+}
+
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
@@ -58,7 +62,7 @@ function profilefields_manager_info()
 		"website"	=> "https://github.com/little-evil-genius/Profilfeld-Manager",
 		"author"	=> "little.evil.genius",
 		"authorsite"	=> "https://storming-gates.de/member.php?action=profile&uid=1712",
-		"version"	=> "1.0.1",
+		"version"	=> "1.0.2",
 		"compatibility" => "18*"
 	);
 }
