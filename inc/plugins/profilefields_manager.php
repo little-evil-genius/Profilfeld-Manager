@@ -306,6 +306,26 @@ function profilefields_manager_admin_manage() {
         // ÜBERSICHT
 		if ($mybb->get_input('action') == "" || !$mybb->get_input('action')) {
 
+			if ($mybb->request_method == "post" && $mybb->get_input('do') == "save_sort") {
+
+                if(!is_array($mybb->get_input('disporder', MyBB::INPUT_ARRAY))) {
+                    flash_message($lang->profilefields_manager_error_sort, 'error');
+                    admin_redirect("index.php?module=rpgstuff-profilefields_manager");
+                }
+
+                foreach($mybb->get_input('disporder', MyBB::INPUT_ARRAY) as $field_id => $order) {
+        
+                    $update_sort = array(
+                        "disporder" => (int)$order    
+                    );
+
+                    $db->update_query("usercp_pages", $update_sort, "pid = ".(int)$field_id);
+                }
+
+                flash_message($lang->profilefields_manager_overview_sort_flash, 'success');
+                admin_redirect("index.php?module=rpgstuff-profilefields_manager");
+            }
+
             $page->output_header($lang->profilefields_manager_overview_header);
 
 			// Menü
@@ -326,14 +346,17 @@ function profilefields_manager_admin_manage() {
 			}
 
             // Übersichtsseite
+			$form = new Form("index.php?module=rpgstuff-profilefields_manager", "post", "", 1);
+            echo $form->generate_hidden_field("do", 'save_sort');
             $form_container = new FormContainer($lang->profilefields_manager_overview_container);
             $form_container->output_row_header($lang->profilefields_manager_overview_container_page, array('style' => 'text-align: left;'));
             $form_container->output_row_header($lang->profilefields_manager_overview_container_link, array('style' => 'text-align: center; width: 20%;'));
             $form_container->output_row_header($lang->profilefields_manager_overview_container_fields, array('style' => 'text-align: center; width: 25%;'));
+            $form_container->output_row_header($lang->profilefields_manager_overview_container_sort, array('style' => 'text-align: center; width: 5%;'));
             $form_container->output_row_header($lang->profilefields_manager_options_container, array('style' => 'text-align: center; width: 10%;'));
             
             $query_pages = $db->query("SELECT * FROM ".TABLE_PREFIX."usercp_pages
-            ORDER BY title ASC
+            ORDER BY disporder ASC, title ASC
             ");
 
             while ($pages = $db->fetch_array($query_pages)) {
@@ -360,6 +383,9 @@ function profilefields_manager_admin_manage() {
                     $form_container->output_cell($lang->profilefields_manager_overview_noFields);
                 }
 
+                // Sortierung
+                $form_container->output_cell($form->generate_numeric_field("disporder[{$pages['pid']}]", $pages['disporder'], array('style' => 'width: 80%; text-align: center;', 'min' => 0)), array("class" => "align_center"));
+
                 // OPTIONEN
 				$popup = new PopupMenu("profilefields_manager_".$pid, $lang->profilefields_manager_options_popup);	
                 $popup->add_item(
@@ -381,6 +407,12 @@ function profilefields_manager_admin_manage() {
 			}
 
             $form_container->end();
+
+            if($db->num_rows($query_pages) > 0){
+                $buttons = array($form->generate_submit_button($lang->profilefields_manager_overview_sort_button));
+                $form->output_submit_wrapper($buttons);
+            }
+
             $page->output_footer();
 			exit;
         }
@@ -398,7 +430,8 @@ function profilefields_manager_admin_manage() {
                     $insert_page = array(
                         "identification" => $db->escape_string($mybb->get_input('identification')),
                         "title" => $db->escape_string($mybb->get_input('title')),
-                        "linktitle" => $db->escape_string($mybb->get_input('linktitle'))
+                        "linktitle" => $db->escape_string($mybb->get_input('linktitle')),
+                        "disporder" => (int)$mybb->get_input('disporder')
                     );
                     $db->insert_query("usercp_pages", $insert_page);
 
@@ -450,6 +483,12 @@ function profilefields_manager_admin_manage() {
                 $form->generate_text_box('linktitle', $mybb->get_input('linktitle'))
             );
 
+            $form_container->output_row(
+				$lang->profilefields_manager_form_disporder, 
+				$lang->profilefields_manager_form_disporder_desc,
+                $form->generate_numeric_field('disporder', $mybb->get_input('disporder'), array('id' => 'disporder', 'min' => 0)), 'disporder'
+			);
+
             $form_container->end();
             $buttons[] = $form->generate_submit_button($lang->profilefields_manager_add_button);
             $form->output_submit_wrapper($buttons);
@@ -478,7 +517,8 @@ function profilefields_manager_admin_manage() {
                     $update_page = array(
                         "identification" => $db->escape_string($mybb->get_input('identification')),
                         "title" => $db->escape_string($mybb->get_input('title')),
-                        "linktitle" => $db->escape_string($mybb->get_input('linktitle'))
+                        "linktitle" => $db->escape_string($mybb->get_input('linktitle')),
+                        "disporder" => (int)$mybb->get_input('disporder')
                     );
                     $db->update_query("usercp_pages", $update_page, "pid = ".$pid);
 
@@ -508,10 +548,12 @@ function profilefields_manager_admin_manage() {
 				$identification = $mybb->get_input('identification');
 				$title = $mybb->get_input('title');
 				$linktitle = $mybb->get_input('linktitle');
+				$disporder = $mybb->get_input('disporder');
 			} else {
 				$identification = $pages['identification'];
 				$title = $pages['title'];
 				$linktitle = $pages['linktitle'];
+				$disporder = $pages['disporder'];
             }
 
             // Build the form
@@ -537,6 +579,12 @@ function profilefields_manager_admin_manage() {
                 $lang->profilefields_manager_form_linktitle_desc,
                 $form->generate_text_box('linktitle', $linktitle)
             );
+
+            $form_container->output_row(
+				$lang->profilefields_manager_form_disporder, 
+				$lang->profilefields_manager_form_disporder_desc,
+                $form->generate_numeric_field('disporder', $disporder, array('id' => 'disporder', 'min' => 0)), 'disporder'
+			);
 
             $form_container->end();
             $buttons[] = $form->generate_submit_button($lang->profilefields_manager_edit_button);
@@ -970,6 +1018,11 @@ function profilefields_manager_admin_update_plugin(&$table) {
         // Datenbanktabellen & Felder
         profilefields_manager_database();
 
+        // Update - Sortierung
+        if (!$db->field_exists("disporder", "usercp_pages")) {
+            $db->query("ALTER TABLE `".TABLE_PREFIX."usercp_pages` ADD `disporder` int(5) NOT NULL DEFAULT '0';");
+        }
+
         flash_message($lang->plugins_flash, "success");
         admin_redirect("index.php?module=rpgstuff-plugin_updates");
     }
@@ -1038,7 +1091,7 @@ function profilefields_manager_usercp_menu() {
     $expaltext = in_array('profilefields_manager', $collapse) ? $lang->expcol_expand : $lang->expcol_collapse;
 
     $query_pages = $db->query("SELECT identification, linktitle FROM ".TABLE_PREFIX."usercp_pages
-    ORDER BY title ASC
+    ORDER BY disporder ASC, title ASC
     ");
         
     $usercp_pages = "";
@@ -2563,6 +2616,7 @@ function profilefields_manager_database() {
             `identification` VARCHAR(500) NOT NULL, 
             `title` varchar(500) NOT NULL, 
 			`linktitle` varchar(500) NOT NULL,
+            `disporder` int(5) NOT NULL DEFAULT '0',
             PRIMARY KEY(`pid`),
             KEY `pid` (`pid`)
             ) ENGINE=InnoDB ".$db->build_create_table_collation().";"
@@ -2964,11 +3018,7 @@ function profilefields_manager_is_updated(){
 
     global $db;
 
-    $query = $db->query("SELECT * FROM ".TABLE_PREFIX."templates 
-    WHERE title LIKE 'profilefields_manager%'
-    ");
-
-    if($db->num_rows($query) == 0) {
+    if ($db->field_exists("disporder", "usercp_pages")) {
         return true;
     }
 
