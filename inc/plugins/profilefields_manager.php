@@ -62,7 +62,7 @@ function profilefields_manager_info()
 		"website"	=> "https://github.com/little-evil-genius/Profilfeld-Manager",
 		"author"	=> "little.evil.genius",
 		"authorsite"	=> "https://storming-gates.de/member.php?action=profile&uid=1712",
-		"version"	=> "1.0.2",
+		"version"	=> "1.0.3",
 		"compatibility" => "18*"
 	);
 }
@@ -70,7 +70,7 @@ function profilefields_manager_info()
 // Diese Funktion wird aufgerufen, wenn das Plugin installiert wird (optional).
 function profilefields_manager_install() {
     
-    global $db, $lang;
+    global $db, $lang, $cache;
 
     // SPRACHDATEI
     $lang->load("profilefields_manager");
@@ -83,6 +83,7 @@ function profilefields_manager_install() {
 
     // DATENBANKTABELL & FELDER
     profilefields_manager_database();
+    $cache->update_profilefields();
 
     // TEMPLATES ERSTELLEN
 	// Template Gruppe für jedes Design erstellen
@@ -209,8 +210,8 @@ function profilefields_manager_activate() {
 	find_replace_templatesets('usercp_profile_profilefields_multiselect', '#'.preg_quote('name="profile_fields[$field][]"').'#', 'name="profile_fields[$field][]" id="{$field}"');
 	find_replace_templatesets('usercp_profile_profilefields_radio', '#'.preg_quote('name="profile_fields[$field]"').'#', 'name="profile_fields[$field]" id="{$field}_{$key}"');
 	find_replace_templatesets('usercp_profile_profilefields_select', '#'.preg_quote('name="profile_fields[$field]"').'#', 'name="profile_fields[$field]" id="{$field}"');
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>')."\s*".preg_quote("<span>{\$profilefield['name']}</span>:")."#i",'<tr class="profilefields_manager_field_row profilefields_manager_field_row_label" id="profilefields_manager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"><td><span>{$profilefield[\'name\']}</span>:');
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>{$code}</td>')."#i", '<tr class="profilefields_manager_field_row profilefields_manager_field_row_input" id="profilefields_manager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"> <td>{$code}</td>');
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>')."\s*".preg_quote("<span>{\$profilefield['name']}</span>:")."#i",'<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_label" id="profilefieldsManager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"><td><span>{$profilefield[\'name\']}</span>:');
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr>')."\s*".preg_quote('<td>{$code}</td>')."#i", '<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_input" id="profilefieldsManager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}"> <td>{$code}</td>');
 	find_replace_templatesets('header', '#'.preg_quote('{$pm_notice}').'#', '{$profilefields_manager_banner}{$pm_notice}');
 	find_replace_templatesets('modcp_nav_users', '#'.preg_quote('{$nav_ipsearch}').'#', '{$nav_ipsearch}{$nav_profilefields_manager}');
 }
@@ -243,8 +244,8 @@ function profilefields_manager_deactivate() {
     find_replace_templatesets("usercp_profile_profilefields_multiselect", "#".preg_quote(' id="{$field}"')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_radio", "#".preg_quote(' id="{$field}_{$key}"')."#i", '', 0);
     find_replace_templatesets("usercp_profile_profilefields_select", "#".preg_quote(' id="{$field}"')."#i", '', 0);
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefields_manager_field_row profilefields_manager_field_row_label" id="profilefields_manager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
-    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefields_manager_field_row profilefields_manager_field_row_input" id="profilefields_manager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_label" id="profilefieldsManager_field_label_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
+    find_replace_templatesets("usercp_profile_customfield", "#".preg_quote('<tr class="profilefieldsManager_field_row profilefieldsManager_field_row_input" id="profilefieldsManager_field_input_{$profilefield[\'fid\']}" data-fid="{$profilefield[\'fid\']}" data-dependencefid="{$profilefield[\'dependenceFID\']}" data-dependencecontent="{$profilefield[\'dependencecontent\']}">')."#i", '<tr>', 0);
     find_replace_templatesets("header", "#".preg_quote('{$profilefields_manager_banner}')."#i", '', 0);
     find_replace_templatesets("modcp_nav_users", "#".preg_quote('{$nav_profilefields_manager}')."#i", '', 0);
 }
