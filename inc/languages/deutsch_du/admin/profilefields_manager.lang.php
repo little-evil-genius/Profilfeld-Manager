@@ -29,9 +29,12 @@ $l['profilefields_manager_overview_container'] = "eigene Seiten";
 $l['profilefields_manager_overview_container_page'] = "Seitenbezeichnung";
 $l['profilefields_manager_overview_container_link'] = "Link";
 $l['profilefields_manager_overview_container_fields'] = "Profilfelder";
+$l['profilefields_manager_overview_container_sort'] = "Sortierung";
 $l['profilefields_manager_overview_linktitle'] = "Navigationsanzeige:";
 $l['profilefields_manager_overview_noFields'] = "keine Profilfelder zugeordnet";
 $l['profilefields_manager_overview_noPages'] = "Bisher wurden keine eigenen Seiten für das UserCP hinzugefügt.";
+$l['profilefields_manager_overview_sort_button'] = "UserCP-Seiten-Sortierung speichern";
+$l['profilefields_manager_overview_sort_flash'] = "Die Anzeigereihenfolge der UserCP-Seiten wurde erfolgreich aktualisiert.";
 
 $l['profilefields_manager_add_header'] = "Neue UserCP-Seite hinzufügen";
 $l['profilefields_manager_add_container'] = "Neue UserCP-Seite hinzufügen";
@@ -52,6 +55,8 @@ $l['profilefields_manager_form_identification'] = "Idenifikator/Link <em>*</em>"
 $l['profilefields_manager_form_identification_desc'] = "Der Identifikator dient als Linkbezeichnung beim aufrufen. Er darf keine Sonderzeichen oder Leerzeichen ebthalten (maschinenlesbar).";
 $l['profilefields_manager_form_linktitle'] = "Navigation <em>*</em>";
 $l['profilefields_manager_form_linktitle_desc'] = "Was soll in der Navigation angezeigt werden im UserCP?";
+$l['profilefields_manager_form_disporder'] = "Sortierung <em>*</em>";
+$l['profilefields_manager_form_disporder_desc'] = "Dies ist die Anzeigereihenfolge, abhängig von anderen UserCP-Seiten. Die Zahl sollte für jede Seite unterschiedlich sein.";
 
 $l['profilefields_manager_form_error_title'] = "Du hast keine Seitenbezeichnung angegeben.";
 $l['profilefields_manager_form_error_title_double'] = "Diese Seitenbezeichnung ist schon vergeben.";
@@ -60,6 +65,7 @@ $l['profilefields_manager_form_error_identification_double'] = "Dieser Idenifika
 $l['profilefields_manager_form_error_identification_machine'] = "Dieser Idenifikator/Link besitzt Sonderzeichen oder Leerzeichen.";
 $l['profilefields_manager_form_error_linktitle'] = "Du hast nichts für die Navigation angegeben.";
 $l['profilefields_manager_form_error_linktitle_double'] = "Diese Bezeichnung innerhalb der Navigation ist schon vergeben.";
+$l['profilefields_manager_error_sort'] = "Beim Feststellen der UserCP-Seiten-Sortierung ist ein Fehler aufgetreten. Bitte aktualisiere die Seite und probiere es erneut.";
 
 $l['profilefields_manager_profilefield_form_page'] = 'UserCP-Seite';
 $l['profilefields_manager_profilefield_form_page_desc'] = 'Wähle aus, auf welcher UserCP-Seite dieses Profilfeld angezeigt werden soll.';
